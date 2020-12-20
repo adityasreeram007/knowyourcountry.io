@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KnowACountry.io</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;1,700&family=Poppins:wght@300&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Poppins';
+        }
+        
+        .head {
+            margin-top: 10%;
+            font-size: xx-large;
+            margin-bottom: 5%;
+        }
+        
+        .heading {
+            font-size: xx-large;
+            font-family: PTSans;
+            font-weight: 400;
+        }
+        
+        .box {
+            height: 40px;
+            width: 100%;
+            border-color: rgb(95, 166, 199);
+            text-align: center;
+            border-radius: 5px;
+        }
+        
+         ::placeholder {
+            text-align: center;
+        }
+        
+        .flag {
+            float: right;
+            position: relative;
+        }
+        
+        .capital {
+            font-size: larger;
+            font-weight: 200;
+        }
+        
+        .data {
+            margin-left: 2%;
+        }
+        
+        td {
+            width: 100%;
+        }
+        
+        .dark-mode {
+            background-color: #1C1C1C;
+            color: white;
+        }
+        
+        #footer {
+            font-size: xx-large;
+            position: fixed;
+            height: 50px;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            margin-bottom: 0px;
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="head"><i class="fa fa-globe"></i> KnowACountry.io <button class="btn btn-dark" style="float:right;" onclick="myFunction()"><i class="fa fa-toggle-on"></i></button></div>
+        <div class="search">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <div class="shadow-lg p-3 mb-5 rounded">
+                        <input type=" text " id="inp" class="box " placeholder="Search A Country " onkeyup="search()" /></div>
+                </div>
+            </div>
+        </div>
+        <div class="countries" id="cont">
+
+            {%for i in arr%}
+
+
+
+            <div class="block" id={{i.name}}>
+                <div class="shadow-lg p-3 mb-5  rounded">
+
+                    <center>
+                        <div class="flag"><img src={{i.flag}} height="250px" width=400px /></div>
+                    </center>
+                    <div class="heading" id={{i.name}}>{{i.name}}</div>
+                    <div class="data">
+                        <div class="capital">Capital <i class="fa fa-angle-double-right"></i> {{i.capital}}</div>
+                        <div class="capital">Country <i class="fa fa-angle-double-right"></i> Code {{i.alpha3Code}}</div>
+                        <div class="capital">Currency <i class="fa fa-angle-double-right"></i> {{i.currencies[0].name}}</div>
+                        <div class="capital">Currency Symbol <i class="fa fa-angle-double-right"></i> {{i.currencies[0].symbol}}</div>
+                        <div class="capital">Native Name <i class="fa fa-angle-double-right"></i> {{i.nativeName}}</div>
+                        <div class="capital">Region <i class="fa fa-angle-double-right"></i> {{i.region}}</div>
+                        <div class="capital">Internet Domain <i class="fa fa-angle-double-right"></i> {{i.topLevelDomain[0]}}</div>
+                        <div class="capital">SubRegion <i class="fa fa-angle-double-right"></i> {{i.subregion}}</div>
+                        <div class="capital">Call Code <i class="fa fa-angle-double-right"></i> {{' , '.join(i.callingCodes)}}</div>
+                        <div class="capital">Area <i class="fa fa-angle-double-right"></i> {{i.area}}</div>
+                        <div class="capital">TimeZone <i class="fa fa-angle-double-right"></i> {{i.timezones[0]}}</div>
+                        <div class="capital">Language <i class="fa fa-angle-double-right"></i> {{i.languages[0].name}}</div>
+                        <div class="capital">Latitude <i class="fa fa-angle-double-right"></i> {{i.latlng[0]}}</div>
+                        <div class="capital">Longtitude <i class="fa fa-angle-double-right"></i> {{i.latlng[1]}}</div>
+                        {%if(i.borders[0])%}
+                        <div class="capital">Sharing Borders <i class="fa fa-angle-double-right"></i> {{' , '.join(i.borders)}}</div>
+                        {%endif%}
+                        <div class="capital">Population <i class="fa fa-angle-double-right"></i> {{i.population}}</div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            {%endfor%}
+
+
+        </div>
+    </div>
+    <footer id="footer" class="footer footer-color text-center">
+        <a href="https://github.com/adityasreeram007"><i class="fa fa-github"></i></a>
+    </footer>
+</body>
+
+</html>
+<script>
+    function search() {
+        var input, filter, table, tr, td, i, txtValue;
+        input = document.getElementById("inp");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("cont");
+        tr = table.getElementsByClassName("block");
+
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByClassName("heading");
+
+            if (td) {
+                txtValue = td[0].id;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                } else {
+                    tr[i].style.display = "none";
+                }
+            }
+        }
+    }
+
+    function myFunction() {
+        var element = document.body;
+        element.classList.toggle("dark-mode");
+
+    }
+</script>
