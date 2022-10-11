@@ -5,7 +5,7 @@ app = Flask(__name__)
 @app.route("/",methods=['GET'])
 def query():
 
-    data=requests.get("https://restcountries.eu/rest/v2/",timeout=1.0)
+    data=requests.get("https://restcountries.com/v3.1/all",timeout=1.0)
     res=data.json()
     print(res[0])
     return render_template('homepage.html',arr=res)
